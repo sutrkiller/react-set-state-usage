@@ -1,0 +1,29 @@
+{
+  "name": "tslint-functional-setstate-rule",
+  "version": "1.0.0",
+  "description": "TSLint rule for detection non-functional setState statements",
+  "main": "tslint.json",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sutrkiller/tslint-functional-setstate-rule.git"
+  },
+  "keywords": [
+    "setState",
+    "tslint",
+    "rule"
+  ],
+  "author": "Kentico",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sutrkiller/tslint-functional-setstate-rule/issues"
+  },
+  "homepage": "https://github.com/sutrkiller/tslint-functional-setstate-rule#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "tslint": "^5.4.3",
+    "typescript": "^2.3.4"
+  }
+}
