@@ -10,33 +10,38 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 exports.__esModule = true;
-var ts = require("typescript");
 var Lint = require("tslint");
+var tsutils_1 = require("tsutils");
+var ts = require("typescript");
 var Rule = (function (_super) {
     __extends(Rule, _super);
     function Rule() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     Rule.prototype.apply = function (sourceFile) {
-        return this.applyWithWalker(new UseFunctionalSetState(sourceFile, this.getOptions()));
+        return this.applyWithFunction(sourceFile, walk);
     };
     return Rule;
 }(Lint.Rules.AbstractRule));
-Rule.FAILURE_STRING = 'Use functional setState instead of passing an object.';
+Rule.metadata = {
+    description: "Requires the radix parameter to be specified when calling `parseInt`.",
+    optionExamples: [true],
+    options: null,
+    optionsDescription: "Not configurable.",
+    ruleName: "functional-set-state",
+    type: "functionality",
+    typescriptOnly: false
+};
+Rule.FAILURE_STRING = "Use functional setState instead of passing an object.";
 exports.Rule = Rule;
-var UseFunctionalSetState = (function (_super) {
-    __extends(UseFunctionalSetState, _super);
-    function UseFunctionalSetState() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    UseFunctionalSetState.prototype.visitCallExpression = function (node) {
-        // console.log(node.expression.name.text);
-        if (node && node.expression && node.expression.name && node.expression.name.text.match(/setState/)) {
-            console.log(node.arguments);
-            if (node.arguments.length > 1 || node.arguments.some(function (arg) { return arg.kind === ts.SyntaxKind.ObjectLiteralExpression; })) {
-                this.addFailureAtNode(node, Rule.FAILURE_STRING);
-            }
+function walk(ctx) {
+    return ts.forEachChild(ctx.sourceFile, function cb(node) {
+        if (tsutils_1.isCallExpression(node) && tsutils_1.isPropertyAccessExpression(node.expression) &&
+            node.expression.name.text === "setState" &&
+            (node.arguments.length > 2 ||
+                node.arguments.some(function (arg) { return arg.kind === ts.SyntaxKind.ObjectLiteralExpression; }))) {
+            ctx.addFailureAtNode(node, Rule.FAILURE_STRING);
         }
-    };
-    return UseFunctionalSetState;
-}(Lint.RuleWalker));
+        return ts.forEachChild(node, cb);
+    });
+}
