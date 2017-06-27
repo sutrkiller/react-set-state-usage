@@ -11,9 +11,10 @@ export class Rule extends Lint.Rules.AbstractRule {
 
 class UseFunctionalSetState extends Lint.RuleWalker {
     public visitCallExpression(node: ts.CallExpression) {
-
-        if (node.name.toString().match(/setState/)) {
-            if (node.arguments.length > 1 || node.arguments.some(arg => arg.kind === ts.SyntaxKind.ObjectLiteralExpression)) {
+        // console.log(node.expression.name.text);
+        if (node && node.expression && node.expression.name && node.expression.name.text.match(/setState/)) {
+            console.log(node.arguments);
+            if (node.arguments.length > 1 || node.arguments.some((arg) => arg.kind === ts.SyntaxKind.ObjectLiteralExpression)) {
                 this.addFailureAtNode(node,Rule.FAILURE_STRING);
             }
         }

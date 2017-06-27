@@ -4,7 +4,9 @@
     "tslint:recommended"
   ],
   "jsRules": {},
-  "rules": {},
+  "rules": {
+    "functional-set-state": true
+      },
   "rulesDirectory": [
     "src/rules"
   ]

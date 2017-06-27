@@ -23,6 +23,8 @@
   "homepage": "https://github.com/sutrkiller/tslint-functional-setstate-rule#readme",
   "dependencies": {},
   "devDependencies": {
+    "@types/node": "^8.0.3",
+    "@types/typescript": "^2.0.0",
     "tslint": "^5.4.3",
     "typescript": "^2.3.4"
   }
