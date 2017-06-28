@@ -4,7 +4,7 @@
   "description": "TSLint rule for detection non-functional setState statements",
   "main": "tslint.json",
   "scripts": {
-    "test": "test"
+    "test": ".\\node_modules\\.bin\\tsc -p . && .\\node_modules\\.bin\\tslint --test test\\rules\\**\\tslint.json"
   },
   "repository": {
     "type": "git",

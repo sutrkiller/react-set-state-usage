@@ -1,0 +1,6 @@
+{
+  "rulesDirectory": "../../../../src/rules",
+  "rules": {
+    "functional-set-state": true
+  }
+}

@@ -1,0 +1,14 @@
+this.setState({obj: 123});
+~~~~~~~~~~~~~~~~~~~~~~~~~   [Use functional setState instead of passing an object.]
+this.setState({obj: 123}, () => "callback");
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~   [Use functional setState instead of passing an object.]
+
+this.setState((_) => ({obj: 123}));
+this.setState((prevState) => ({obj: prevState.obj}));
+this.setState((prevState, props) => ({obj: prevState.obj, prop: props.obj}));
+this.setState((_, props) => ({prop: props.obj}));
+
+this.setState((_) => ({obj: 123}), () => "callback");
+this.setState((prevState) => ({obj: prevState.obj}), () => "callback");
+this.setState((prevState, props) => ({obj: prevState.obj, prop: props.obj}), () => "callback");
+this.setState((_, props) => ({prop: props.obj}), () => "callback");

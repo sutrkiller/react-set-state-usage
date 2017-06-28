@@ -9,7 +9,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var Lint = require("tslint");
 var tsutils_1 = require("tsutils");
 var ts = require("typescript");
@@ -21,18 +21,18 @@ var Rule = (function (_super) {
     Rule.prototype.apply = function (sourceFile) {
         return this.applyWithFunction(sourceFile, walk);
     };
+    Rule.metadata = {
+        description: "Requires the radix parameter to be specified when calling `parseInt`.",
+        optionExamples: [true],
+        options: null,
+        optionsDescription: "Not configurable.",
+        ruleName: "functional-set-state",
+        type: "functionality",
+        typescriptOnly: false,
+    };
+    Rule.FAILURE_STRING = "Use functional setState instead of passing an object.";
     return Rule;
 }(Lint.Rules.AbstractRule));
-Rule.metadata = {
-    description: "Requires the radix parameter to be specified when calling `parseInt`.",
-    optionExamples: [true],
-    options: null,
-    optionsDescription: "Not configurable.",
-    ruleName: "functional-set-state",
-    type: "functionality",
-    typescriptOnly: false
-};
-Rule.FAILURE_STRING = "Use functional setState instead of passing an object.";
 exports.Rule = Rule;
 function walk(ctx) {
     return ts.forEachChild(ctx.sourceFile, function cb(node) {
@@ -45,3 +45,4 @@ function walk(ctx) {
         return ts.forEachChild(node, cb);
     });
 }
+//# sourceMappingURL=functionalSetStateRule.js.map
