@@ -1,6 +1,6 @@
 {
   "rulesDirectory": "../../../../src/rules",
   "rules": {
-    "functional-set-state": true
+    "react-set-state-usage": [true, "updater-only"]
   }
 }

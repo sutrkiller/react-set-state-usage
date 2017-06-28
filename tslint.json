@@ -5,7 +5,7 @@
   ],
   "jsRules": {},
   "rules": {
-    "functional-set-state": true
+    "react-set-state-usage": true
       },
   "rulesDirectory": [
     "src/rules"

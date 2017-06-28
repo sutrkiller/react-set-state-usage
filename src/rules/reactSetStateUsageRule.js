@@ -38,7 +38,7 @@ var Rule = (function (_super) {
             type: "array",
         },
         optionsDescription: "Not configurable.",
-        ruleName: "functional-set-state",
+        ruleName: "react-set-state-usage",
         type: "functionality",
         typescriptOnly: false,
     };
@@ -71,4 +71,4 @@ function walk(ctx) {
         return ts.forEachChild(node, cb);
     });
 }
-//# sourceMappingURL=functionalSetStateRule.js.map
+//# sourceMappingURL=reactSetStateUsageRule.js.map

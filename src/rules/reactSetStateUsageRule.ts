@@ -20,7 +20,7 @@ export class Rule extends Lint.Rules.AbstractRule {
             type: "array",
         },
         optionsDescription: "Not configurable.",
-        ruleName: "functional-set-state",
+        ruleName: "react-set-state-usage",
         type: "functionality",
         typescriptOnly: false,
     };
