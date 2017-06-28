@@ -13,34 +13,60 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var Lint = require("tslint");
 var tsutils_1 = require("tsutils");
 var ts = require("typescript");
+var OPTION_UPDATER_ONLY = "updater-only";
 var Rule = (function (_super) {
     __extends(Rule, _super);
     function Rule() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     Rule.prototype.apply = function (sourceFile) {
-        return this.applyWithFunction(sourceFile, walk);
+        var options = parseOptions(this.ruleArguments);
+        return this.applyWithFunction(sourceFile, walk, options);
     };
     Rule.metadata = {
         description: "Requires the radix parameter to be specified when calling `parseInt`.",
         optionExamples: [true],
-        options: null,
+        options: {
+            items: [
+                {
+                    enum: [OPTION_UPDATER_ONLY],
+                    type: "string",
+                },
+            ],
+            maxLength: 1,
+            minLength: 0,
+            type: "array",
+        },
         optionsDescription: "Not configurable.",
         ruleName: "functional-set-state",
         type: "functionality",
         typescriptOnly: false,
     };
     Rule.FAILURE_STRING = "Use functional setState instead of passing an object.";
+    Rule.FAILURE_STRING_UPDATER_ONLY = "Do not use callback parameter \"updater-only\" switch";
     return Rule;
 }(Lint.Rules.AbstractRule));
 exports.Rule = Rule;
+function parseOptions(ruleArguments) {
+    var updaterOnly = ruleArguments[0];
+    if (updaterOnly !== OPTION_UPDATER_ONLY) {
+        return { updaterOnly: false };
+    }
+    return {
+        updaterOnly: updaterOnly === OPTION_UPDATER_ONLY,
+    };
+}
 function walk(ctx) {
+    var updaterOnly = ctx.options.updaterOnly;
     return ts.forEachChild(ctx.sourceFile, function cb(node) {
         if (tsutils_1.isCallExpression(node) && tsutils_1.isPropertyAccessExpression(node.expression) &&
-            node.expression.name.text === "setState" &&
-            (node.arguments.length > 2 ||
-                node.arguments.some(function (arg) { return arg.kind === ts.SyntaxKind.ObjectLiteralExpression; }))) {
-            ctx.addFailureAtNode(node, Rule.FAILURE_STRING);
+            node.expression.name.text === "setState") {
+            if (node.arguments.some(function (arg) { return arg.kind === ts.SyntaxKind.ObjectLiteralExpression; })) {
+                ctx.addFailureAtNode(node, Rule.FAILURE_STRING);
+            }
+            if (updaterOnly && node.arguments.length > 1) {
+                ctx.addFailureAtNode(node.arguments[1], Rule.FAILURE_STRING_UPDATER_ONLY);
+            }
         }
         return ts.forEachChild(node, cb);
     });
