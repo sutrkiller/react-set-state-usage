@@ -1,5 +1,5 @@
 {
-  "name": "tslint-functional-setstate-rule",
+  "name": "react-set-state-usage",
   "version": "1.0.0",
   "description": "TSLint rule for detection non-functional setState statements",
   "main": "tslint.json",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sutrkiller/tslint-functional-setstate-rule.git"
+    "url": "git+https://github.com/sutrkiller/react-set-state-usage.git"
   },
   "keywords": [
     "setState",
@@ -18,9 +18,9 @@
   "author": "Kentico",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/sutrkiller/tslint-functional-setstate-rule/issues"
+    "url": "https://github.com/sutrkiller/react-set-state-usage/issues"
   },
-  "homepage": "https://github.com/sutrkiller/tslint-functional-setstate-rule#readme",
+  "homepage": "https://github.com/sutrkiller/react-set-state-usage#readme",
   "dependencies": {
     "tsutils": "^2.4.0"
   },
