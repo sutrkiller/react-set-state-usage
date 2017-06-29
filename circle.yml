@@ -6,4 +6,4 @@ deployment:
   npm:
     tag: /v[0-9]+(\.[0-9]+)*/
     commands:
-      - ./npm-deploy.sh
+      - npm publish
