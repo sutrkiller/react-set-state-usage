@@ -1,6 +1,6 @@
 {
   "name": "react-set-state-usage",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "TSLint rule for detection non-functional setState statements",
   "main": "tslint.json",
   "scripts": {
@@ -15,7 +15,7 @@
     "tslint",
     "rule"
   ],
-  "author": "Kentico",
+  "author": "Tobias Kamenicky",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/sutrkiller/react-set-state-usage/issues"
