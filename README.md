@@ -6,7 +6,7 @@
 
 ## Installation
 
-react-set-state-usage is available as the `react-set-state-usage` package on [npm](https://www.npmjs.com/).
+react-set-state-usage is available as the `react-set-state-usage` package on [npm](https://www.npmjs.com/package/react-set-state-usage).
 
 ## Usage
 
