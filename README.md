@@ -1,4 +1,4 @@
-# tslint-functional-setstate-rule [![CircleCI](https://circleci.com/gh/sutrkiller/tslint-functional-setstate-rule.svg?style=svg)](https://circleci.com/gh/sutrkiller/tslint-functional-setstate-rule) ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)
+# react-set-state-usage [![CircleCI](https://circleci.com/gh/sutrkiller/react-set-state-usage.svg?style=svg)](https://circleci.com/gh/sutrkiller/react-set-state-usage) ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)
 
 **react-set-state-usage** is a rule, that enforces usage of callbacks in setState calls instead of objects.
 
