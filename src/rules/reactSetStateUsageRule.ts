@@ -6,7 +6,7 @@ const OPTION_UPDATER_ONLY = "updater-only";
 
 export class Rule extends Lint.Rules.AbstractRule {
     public static metadata: Lint.IRuleMetadata = {
-        description: "Requires the radix parameter to be specified when calling `parseInt`.",
+        description: "Requires the setState function to be called with function as the first argument.",
         optionExamples: [true],
         options: {
             items: [
