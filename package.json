@@ -16,7 +16,7 @@
     "rule"
   ],
   "author": "Kentico",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/sutrkiller/react-set-state-usage/issues"
   },
