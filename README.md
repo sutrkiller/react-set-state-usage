@@ -10,10 +10,13 @@ react-set-state-usage is available as the `react-set-state-usage` package on [np
 
 ## Usage
 
-Update the rules in the `tslint.json` file as displayed in the following code:
+Extend this tslint plugin in the `tslint.json` file and update the rules as displayed in the following code:
 
 ```JSON
 {
+  "extends": [
+    "react-set-state-usage"
+  ],
   "rules": {
     "react-set-state-usage": true
   },
