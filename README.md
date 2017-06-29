@@ -8,6 +8,26 @@
 
 react-set-state-usage is available as the `react-set-state-usage` package on [npm](https://www.npmjs.com/).
 
+## Usage
+
+Update the rules in the `tslint.json` file as displayed in the following code:
+
+```JSON
+{
+  "rules": {
+    "react-set-state-usage": true
+  },
+}
+```
+
+To enable the **updater-only** option, rule should be used like this:
+
+```JSON
+"rules:" {
+  "react-set-state-usage": [true, "updater-only"]
+}
+```
+
 ## Examples
 
 ```tsx
