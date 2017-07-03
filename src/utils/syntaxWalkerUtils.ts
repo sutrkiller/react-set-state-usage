@@ -1,7 +1,8 @@
 import * as ts from "typescript";
 import {
     isCallExpression,
-    isPropertyAccessExpression
+    isPropertyAccessExpression,
+    isParenthesizedExpression
 } from "tsutils";
 
 import {isThisKeyword} from "./syntaxKindUtils";
@@ -24,4 +25,11 @@ export function getFirstSetStateAncestor(node: ts.Node): ts.CallExpression {
     }
 
     return getFirstSetStateAncestor(node.parent);
+}
+
+export function removeParentheses(node: ts.Node){
+    while (isParenthesizedExpression(node)) {
+        node = node.expression;
+    }
+    return node;
 }

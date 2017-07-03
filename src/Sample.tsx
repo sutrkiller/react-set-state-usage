@@ -1,6 +1,8 @@
+import {isNullOrUndefined} from "util";
 class Class  {
     private state = {
         flag: true,
+        doNotAccessMeInSetState: () => null,
     };
 
     private props = {
@@ -16,6 +18,9 @@ class Class  {
         // Do not access this.props nor this.state in setState
         this.setState((_) => ({obj: 123, prop: this.props.doNotAccessMeInSetState}));
         this.setState((_) => ({obj: 123, flag: !this.state.flag}));
+        this.setState((_) => ({obj: 123, prop: this.props.doNotAccessMeInSetState, state: this.state.doNotAccessMeInSetState}), () => "callback");
+
+        this.setState(({obj: 123, prop: this.props.doNotAccessMeInSetState, state: this.state.doNotAccessMeInSetState}), () => "callback");
 
         // This will probably be a false negative
         const x = { flag: this.state.flag };

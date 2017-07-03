@@ -9,7 +9,7 @@ import {
 } from "./reactSetStateUsageOptions";
 import {
     getFirstSetStateAncestor, isThisPropertyAccess,
-    isThisSetState
+    isThisSetState, removeParentheses
 } from "../utils/syntaxWalkerUtils";
 
 const FAILURE_STRING = "Do not pass an object into setState. Use functional setState updater instead.";
@@ -61,16 +61,17 @@ function walk(ctx: Lint.WalkContext<IOptions>) {
 }
 
 function inspectSetStateCall(node: ts.CallExpression, ctx: Lint.WalkContext<IOptions>, updaterOnly: boolean) {
-    const args = node.arguments;
+    const { 0: updaterArgument, 1: callbackArgument, length: argumentsCount } = node.arguments;
 
     // Forbid object literal
-    if (isObjectLiteralExpression(args[0])) {
-        ctx.addFailureAtNode(args[0], FAILURE_STRING);
+    const bareUpdaterArgument = removeParentheses(updaterArgument);
+    if (isObjectLiteralExpression(bareUpdaterArgument)) {
+        ctx.addFailureAtNode(updaterArgument, FAILURE_STRING);
     }
 
     // Forbid second argument if updaterOnly flag set
-    if (updaterOnly && args.length > 1) {
-        ctx.addFailureAtNode(args[1], FAILURE_STRING_UPDATER_ONLY);
+    if (updaterOnly && argumentsCount > 1) {
+        ctx.addFailureAtNode(callbackArgument, FAILURE_STRING_UPDATER_ONLY);
     }
 }
 
@@ -78,7 +79,7 @@ function inspectThisPropsOrStateContext(node: ts.PropertyAccessExpression, ctx: 
     const setStateCall = getFirstSetStateAncestor(node.parent);
 
     if (setStateCall) {
-        ctx.addFailureAtNode(setStateCall.arguments[0], getFailureStringForAccessedMember(node.name.text));
+        ctx.addFailureAtNode(node, getFailureStringForAccessedMember(node.name.text));
     }
 }
 
