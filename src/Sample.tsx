@@ -19,9 +19,9 @@ class Class  {
 
         // This will probably be a false negative
         const x = { flag: this.state.flag };
-        this.setState(x)
+        this.setState(x);
 
-        // These are okey
+        // These are okay
         this.setState((_) => ({obj: 123}));
         this.setState((prevState) => ({obj: prevState.obj}));
         this.setState((prevState, props) => ({obj: prevState.obj, prop: props.obj}));

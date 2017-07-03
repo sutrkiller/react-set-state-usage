@@ -13,8 +13,8 @@ this.setState((prevState) => ({obj: prevState.obj}), () => "callback");
 this.setState((prevState, props) => ({obj: prevState.obj, prop: props.obj}), () => "callback");
 this.setState((_, props) => ({prop: props.obj}), () => "callback");
 
-// this.setState((_) => ({obj: 123, prop: this.props.doNotAccessMeInSetState}));
-//               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  [Do not access 'this.props' in setState. Use arguments from callback function instead.]
+this.setState((_) => ({obj: 123, prop: this.props.doNotAccessMeInSetState}));
+              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  [Do not access 'this.props' in setState. Use arguments from callback function instead.]
 
-// this.setState((_) => ({obj: 123, prop: this.state.doNotAccessMeInSetState}));
-//               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  [Do not access 'this.state' in setState. Use arguments from callback function instead.]
+this.setState((_) => ({obj: 123, prop: this.state.doNotAccessMeInSetState}));
+              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  [Do not access 'this.state' in setState. Use arguments from callback function instead.]
