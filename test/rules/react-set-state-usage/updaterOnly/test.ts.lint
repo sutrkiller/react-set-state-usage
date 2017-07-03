@@ -1,16 +1,16 @@
 this.setState({obj: 123});
-              ~~~~~~~~~~   [Use functional setState instead of passing an object.]
+              ~~~~~~~~~~   [Do not pass an object into setState. Use functional setState updater instead.]
 this.setState({obj: 123}, () => "callback");
-              ~~~~~~~~~~   [Use functional setState instead of passing an object.]
-                          ~~~~~~~~~~~~~~~~     [Do not use callback parameter "updater-only" switch]
+              ~~~~~~~~~~   [Do not pass an object into setState. Use functional setState updater instead.]
+                          ~~~~~~~~~~~~~~~~     [Do not use callback parameter in setState. Use componentDidUpdate method instead ("updater-only" switch).]
 this.setState((_) => ({obj: 123}), () => "callback");
-                                   ~~~~~~~~~~~~~~~~     [Do not use callback parameter "updater-only" switch]
+                                   ~~~~~~~~~~~~~~~~     [Do not use callback parameter in setState. Use componentDidUpdate method instead ("updater-only" switch).]
 this.setState((prevState) => ({obj: prevState.obj}), () => "callback");
-                                                     ~~~~~~~~~~~~~~~~    [Do not use callback parameter "updater-only" switch]
+                                                     ~~~~~~~~~~~~~~~~    [Do not use callback parameter in setState. Use componentDidUpdate method instead ("updater-only" switch).]
 this.setState((prevState, props) => ({obj: prevState.obj, prop: props.obj}), () => "callback");
-                                                                             ~~~~~~~~~~~~~~~~    [Do not use callback parameter "updater-only" switch]
+                                                                             ~~~~~~~~~~~~~~~~    [Do not use callback parameter in setState. Use componentDidUpdate method instead ("updater-only" switch).]
 this.setState((_, props) => ({prop: props.obj}), () => "callback");
-                                                 ~~~~~~~~~~~~~~~~    [Do not use callback parameter "updater-only" switch]
+                                                 ~~~~~~~~~~~~~~~~    [Do not use callback parameter in setState. Use componentDidUpdate method instead ("updater-only" switch).]
 
 this.setState((_) => ({obj: 123}));
 this.setState((prevState) => ({obj: prevState.obj}));
@@ -25,8 +25,8 @@ this.setState((_) => ({obj: 123, prop: this.state.doNotAccessMeInSetState}));
 
 this.setState((_) => ({obj: 123, prop: this.props.doNotAccessMeInSetState}), () => "callback");
               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  [Do not access 'this.props' in setState. Use arguments from callback function instead.]
-                                                                             ~~~~~~~~~~~~~~~~     [Do not use callback parameter "updater-only" switch]
+                                                                             ~~~~~~~~~~~~~~~~     [Do not use callback parameter in setState. Use componentDidUpdate method instead ("updater-only" switch).]
 
 this.setState((_) => ({obj: 123, prop: this.state.doNotAccessMeInSetState}), () => "callback");
               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  [Do not access 'this.state' in setState. Use arguments from callback function instead.]
-                                                                             ~~~~~~~~~~~~~~~~     [Do not use callback parameter "updater-only" switch]
+                                                                             ~~~~~~~~~~~~~~~~     [Do not use callback parameter in setState. Use componentDidUpdate method instead ("updater-only" switch).]

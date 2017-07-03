@@ -12,8 +12,8 @@ import {
     isThisSetState
 } from "../utils/syntaxWalkerUtils";
 
-const FAILURE_STRING = "Use functional setState instead of passing an object.";
-const FAILURE_STRING_UPDATER_ONLY = "Do not use callback parameter \"updater-only\" switch";
+const FAILURE_STRING = "Do not pass an object into setState. Use functional setState updater instead.";
+const FAILURE_STRING_UPDATER_ONLY = `Do not use callback parameter in setState. Use componentDidUpdate method instead (\"${OPTION_UPDATER_ONLY}\" switch).`;
 const getFailureStringForAccessedMember = (accessedMember: string) => `Do not access 'this.${accessedMember}' in setState. Use arguments from callback function instead.`;
 
 export class Rule extends Lint.Rules.AbstractRule {
