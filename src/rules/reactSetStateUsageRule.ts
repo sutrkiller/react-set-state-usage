@@ -36,7 +36,6 @@ export class Rule extends Lint.Rules.AbstractRule {
         const options = parseOptions(this.ruleArguments);
         return this.applyWithFunction(sourceFile, walk, options);
     }
-
 }
 
 function parseOptions(ruleArguments: any[]): IOptions {
@@ -48,17 +47,28 @@ function parseOptions(ruleArguments: any[]): IOptions {
 }
 
 function walk(ctx: Lint.WalkContext<IOptions>) {
-    const {options: {updaterOnly}} = ctx;
-    return ts.forEachChild(ctx.sourceFile, function cb(node: ts.Node): void {
-        if (isCallExpression(node) && isPropertyAccessExpression(node.expression) &&
-            node.expression.name.text === "setState") {
-            if (node.arguments.some((arg) => arg.kind === ts.SyntaxKind.ObjectLiteralExpression)) {
-                ctx.addFailureAtNode(node.arguments[0], Rule.FAILURE_STRING);
+    const {sourceFile, options: {updaterOnly}} = ctx;
+
+    function cb(node: ts.Node): void {
+        if (isThisSetState(node)) {
+            const setStateCall = node as ts.CallExpression;
+            const args = setStateCall.arguments;
+            if (args.length && args[0].kind === ts.SyntaxKind.ObjectLiteralExpression) {
+                ctx.addFailureAtNode(args[0], Rule.FAILURE_STRING);
             }
-            if (updaterOnly && node.arguments.length > 1) {
-                ctx.addFailureAtNode(node.arguments[1], Rule.FAILURE_STRING_UPDATER_ONLY);
+            if (updaterOnly && args.length > 1) {
+                ctx.addFailureAtNode(args[1], Rule.FAILURE_STRING_UPDATER_ONLY);
             }
         }
         return ts.forEachChild(node, cb);
-    });
+    }
+
+    return ts.forEachChild(sourceFile, cb);
+}
+
+function isThisSetState(node: ts.Node) {
+    return isCallExpression(node) &&
+        isPropertyAccessExpression(node.expression) &&
+        node.expression.name.text === "setState" &&
+        node.expression.expression.getText() === "this";
 }
