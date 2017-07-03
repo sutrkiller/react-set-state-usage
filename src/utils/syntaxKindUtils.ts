@@ -1,3 +1,3 @@
 import * as ts from "typescript";
 
-export const isThisKeyword = (expresstion: ts.Expression) => expresstion.kind === ts.SyntaxKind.ThisKeyword;
+export const isThisKeyword = (expression: ts.Expression) => expression.kind === ts.SyntaxKind.ThisKeyword;

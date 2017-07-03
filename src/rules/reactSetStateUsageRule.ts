@@ -1,15 +1,17 @@
 import * as ts from "typescript";
 import * as Lint from "tslint";
-import {isObjectLiteralExpression} from "tsutils";
+import { isObjectLiteralExpression } from "tsutils";
 
 import {
     IOptions,
     OPTION_UPDATER_ONLY,
-    parseOptions
+    parseOptions,
 } from "./reactSetStateUsageOptions";
 import {
-    getFirstSetStateAncestor, isThisPropertyAccess,
-    isThisSetState, removeParentheses
+    getFirstSetStateAncestor,
+    isThisPropertyAccess,
+    isThisSetState,
+    removeParentheses,
 } from "../utils/syntaxWalkerUtils";
 
 const FAILURE_STRING = "Do not pass an object into setState. Use functional setState updater instead.";
@@ -44,7 +46,7 @@ export class Rule extends Lint.Rules.AbstractRule {
 }
 
 function walk(ctx: Lint.WalkContext<IOptions>) {
-    const {sourceFile, options: {updaterOnly}} = ctx;
+    const { sourceFile, options: { updaterOnly } } = ctx;
 
     function cb(node: ts.Node): void {
         if (isThisSetState(node)) {
