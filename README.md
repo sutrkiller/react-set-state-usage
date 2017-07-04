@@ -1,6 +1,6 @@
 # react-set-state-usage [![CircleCI](https://circleci.com/gh/sutrkiller/react-set-state-usage.svg?style=shield&svg)](https://circleci.com/gh/sutrkiller/react-set-state-usage) [![npm version](https://img.shields.io/npm/v/react-set-state-usage.svg?style=flat)](https://www.npmjs.com/package/react-set-state-usage) ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)
 
-**react-set-state-usage** is a rule, that enforces usage of callbacks in setState calls instead of objects.
+**react-set-state-usage** is a rule, that enforces usage of callbacks in setState calls instead of objects. Moreover, it forbids access to `this.props` and `this.state` within `setState(...)` calls.
 
 * **updater-only:** it also has updater-only option to forbid usage of second `callback` parameter of setState
 
@@ -34,7 +34,7 @@ To enable the **updater-only** option, rule should be used like this:
 ## Examples
 
 ```tsx
-class NameDemo extends React.Component<{ someCallback: () => void }, { name: string }> {
+class NameDemo extends React.Component<{ someFlag: boolean, someCallback: () => void }, { redundandFlag: boolean, name: string }> {
 
   constructor(props) {
     super(props);
@@ -48,10 +48,12 @@ class NameDemo extends React.Component<{ someCallback: () => void }, { name: str
 
   function onBadClick() {
     this.setState({ name: 'badName' });  // will produce tslint error
+    this.setState({ redundandFlag: this.props.flag });  // will produce tslint error, same holds for 'this.state' access
   }
   
   function onGoodClick() {
     this.setState(() => ({ name: 'goodName' })); // will not produce tslint error
+    this.setState((state, props) => ({ redundandFlag: props.flag })); // will not produce tslint error
   }
   
   function onSomeOtherClick() {

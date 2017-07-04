@@ -1,6 +1,6 @@
 {
   "name": "react-set-state-usage",
-  "version": "1.0.4",
+  "version": "2.0.0",
   "description": "TSLint rule for detection non-functional setState statements",
   "main": "tslint.json",
   "scripts": {
