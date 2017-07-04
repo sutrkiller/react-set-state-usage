@@ -1,0 +1,8 @@
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+**
+!LICENCE.md
+!package.json
+!package-lock.json
+!README.md
+!src/**
+src/Sample.*
