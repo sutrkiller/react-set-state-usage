@@ -1,7 +1,7 @@
 this.setState({obj: 123});
-              ~~~~~~~~~~   [Use functional setState instead of passing an object.]
+              ~~~~~~~~~~   [Do not pass an object into setState. Use functional setState updater instead.]
 this.setState({obj: 123}, () => "callback");
-              ~~~~~~~~~~   [Use functional setState instead of passing an object.]
+              ~~~~~~~~~~   [Do not pass an object into setState. Use functional setState updater instead.]
 
 this.setState((_) => ({obj: 123}));
 this.setState((prevState) => ({obj: prevState.obj}));
@@ -12,3 +12,23 @@ this.setState((_) => ({obj: 123}), () => "callback");
 this.setState((prevState) => ({obj: prevState.obj}), () => "callback");
 this.setState((prevState, props) => ({obj: prevState.obj, prop: props.obj}), () => "callback");
 this.setState((_, props) => ({prop: props.obj}), () => "callback");
+
+this.setState((_) => ({obj: 123, prop: this.props.doNotAccessMeInSetState}));
+                                       ~~~~~~~~~~  [Do not access 'this.props' in setState. Use arguments from callback function instead.]
+
+this.setState((_) => ({obj: 123, prop: this.state.doNotAccessMeInSetState}));
+                                       ~~~~~~~~~~  [Do not access 'this.state' in setState. Use arguments from callback function instead.]
+
+this.setState((_) => ({obj: 123, prop: this.props.doNotAccessMeInSetState, state: this.state.doNotAccessMeInSetState}));
+                                       ~~~~~~~~~~  [Do not access 'this.props' in setState. Use arguments from callback function instead.]
+                                                                                  ~~~~~~~~~~  [Do not access 'this.state' in setState. Use arguments from callback function instead.]
+
+this.setState(({obj: 123, prop: this.props.doNotAccessMeInSetState, state: this.state.doNotAccessMeInSetState})));
+              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  [Do not pass an object into setState. Use functional setState updater instead.]
+                                ~~~~~~~~~~  [Do not access 'this.props' in setState. Use arguments from callback function instead.]
+                                                                           ~~~~~~~~~~  [Do not access 'this.state' in setState. Use arguments from callback function instead.]
+
+this.setState(((({obj: 123, prop: this.props.doNotAccessMeInSetState, state: this.state.doNotAccessMeInSetState})))));
+              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  [Do not pass an object into setState. Use functional setState updater instead.]
+                                  ~~~~~~~~~~  [Do not access 'this.props' in setState. Use arguments from callback function instead.]
+                                                                             ~~~~~~~~~~  [Do not access 'this.state' in setState. Use arguments from callback function instead.]

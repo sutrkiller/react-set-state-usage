@@ -1,5 +1,9 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
+# TSLint generated
+*.js
+*.js.map
+
 # dependencies
 node_modules
 

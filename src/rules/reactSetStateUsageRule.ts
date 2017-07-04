@@ -1,16 +1,26 @@
-import * as Lint from "tslint";
-import {isCallExpression, isPropertyAccessExpression} from "tsutils";
 import * as ts from "typescript";
+import * as Lint from "tslint";
+import { isObjectLiteralExpression } from "tsutils";
 
-const OPTION_UPDATER_ONLY = "updater-only";
+import {
+    IOptions,
+    OPTION_UPDATER_ONLY,
+    parseOptions,
+} from "./reactSetStateUsageOptions";
+import {
+    getFirstSetStateAncestor,
+    isThisPropertyAccess,
+    isThisSetState,
+    removeParentheses,
+} from "../utils/syntaxWalkerUtils";
 
-interface IOptions {
-    readonly updaterOnly: boolean;
-}
+const FAILURE_STRING = "Do not pass an object into setState. Use functional setState updater instead.";
+const FAILURE_STRING_UPDATER_ONLY = `Do not use callback parameter in setState. Use componentDidUpdate method instead (\"${OPTION_UPDATER_ONLY}\" switch).`;
+const getFailureStringForAccessedMember = (accessedMember: string) => `Do not access 'this.${accessedMember}' in setState. Use arguments from callback function instead.`;
 
 export class Rule extends Lint.Rules.AbstractRule {
     public static metadata: Lint.IRuleMetadata = {
-        description: "Requires the setState function to be called with function as the first argument.",
+        description: "Requires the setState function to be called with function as the first argument and without 'this.props' nor 'this.state' access within the function.",
         optionExamples: [true],
         options: {
             items: [
@@ -29,36 +39,52 @@ export class Rule extends Lint.Rules.AbstractRule {
         typescriptOnly: false,
     };
 
-    public static FAILURE_STRING = "Use functional setState instead of passing an object.";
-    public static FAILURE_STRING_UPDATER_ONLY = "Do not use callback parameter \"updater-only\" switch";
-
     public apply(sourceFile: ts.SourceFile): Lint.RuleFailure[] {
         const options = parseOptions(this.ruleArguments);
         return this.applyWithFunction(sourceFile, walk, options);
     }
-
-}
-
-function parseOptions(ruleArguments: any[]): IOptions {
-    const updaterOnly = ruleArguments[0] as string;
-
-    return {
-        updaterOnly: updaterOnly === OPTION_UPDATER_ONLY,
-    };
 }
 
 function walk(ctx: Lint.WalkContext<IOptions>) {
-    const {options: {updaterOnly}} = ctx;
-    return ts.forEachChild(ctx.sourceFile, function cb(node: ts.Node): void {
-        if (isCallExpression(node) && isPropertyAccessExpression(node.expression) &&
-            node.expression.name.text === "setState") {
-            if (node.arguments.some((arg) => arg.kind === ts.SyntaxKind.ObjectLiteralExpression)) {
-                ctx.addFailureAtNode(node.arguments[0], Rule.FAILURE_STRING);
-            }
-            if (updaterOnly && node.arguments.length > 1) {
-                ctx.addFailureAtNode(node.arguments[1], Rule.FAILURE_STRING_UPDATER_ONLY);
-            }
+    const { sourceFile, options: { updaterOnly } } = ctx;
+
+    function cb(node: ts.Node): void {
+        if (isThisSetState(node)) {
+            inspectSetStateCall(node, ctx, updaterOnly);
         }
+        else if (isThisState(node) || isThisProps(node)) {
+            inspectThisPropsOrStateContext(node, ctx);
+        }
+
         return ts.forEachChild(node, cb);
-    });
+    }
+
+    return ts.forEachChild(sourceFile, cb);
 }
+
+function inspectSetStateCall(node: ts.CallExpression, ctx: Lint.WalkContext<IOptions>, updaterOnly: boolean) {
+    const { 0: updaterArgument, 1: callbackArgument, length: argumentsCount } = node.arguments;
+
+    // Forbid object literal
+    const bareUpdaterArgument = removeParentheses(updaterArgument);
+    if (isObjectLiteralExpression(bareUpdaterArgument)) {
+        ctx.addFailureAtNode(updaterArgument, FAILURE_STRING);
+    }
+
+    // Forbid second argument if updaterOnly flag set
+    if (updaterOnly && argumentsCount > 1) {
+        ctx.addFailureAtNode(callbackArgument, FAILURE_STRING_UPDATER_ONLY);
+    }
+}
+
+function inspectThisPropsOrStateContext(node: ts.PropertyAccessExpression, ctx: Lint.WalkContext<IOptions>) {
+    const setStateCall = getFirstSetStateAncestor(node.parent);
+
+    if (setStateCall) {
+        ctx.addFailureAtNode(node, getFailureStringForAccessedMember(node.name.text));
+    }
+}
+
+const isThisState = (node: ts.Node): node is ts.PropertyAccessExpression => isThisPropertyAccess(node) && node.name.text === "state";
+
+const isThisProps = (node: ts.Node): node is ts.PropertyAccessExpression => isThisPropertyAccess(node) && node.name.text === "props";
