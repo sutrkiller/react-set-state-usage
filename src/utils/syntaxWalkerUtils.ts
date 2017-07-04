@@ -7,7 +7,8 @@ import {
 
 import { isThisKeyword } from "./syntaxKindUtils";
 
-export const isThisPropertyAccess = (node: ts.Node): node is ts.PropertyAccessExpression => isPropertyAccessExpression(node) && isThisKeyword(node.expression);
+export const isThisPropertyAccess = (node: ts.Node): node is ts.PropertyAccessExpression =>
+    isPropertyAccessExpression(node) && isThisKeyword(node.expression);
 
 export const isThisSetState = (node: ts.Node): node is ts.CallExpression =>
     isCallExpression(node)
@@ -27,9 +28,6 @@ export function getFirstSetStateAncestor(node: ts.Node): ts.CallExpression {
     return getFirstSetStateAncestor(node.parent);
 }
 
-export function removeParentheses(node: ts.Node) {
-    while (isParenthesizedExpression(node)) {
-        node = node.expression;
-    }
-    return node;
-}
+export const removeParentheses = (node: ts.Node) => isParenthesizedExpression(node)
+    ? removeParentheses(node.expression)
+    : node;
