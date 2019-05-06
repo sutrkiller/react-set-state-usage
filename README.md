@@ -1,4 +1,6 @@
-# react-set-state-usage [![CircleCI](https://circleci.com/gh/sutrkiller/react-set-state-usage.svg?style=shield&svg)](https://circleci.com/gh/sutrkiller/react-set-state-usage) [![npm version](https://img.shields.io/npm/v/react-set-state-usage.svg?style=flat)](https://www.npmjs.com/package/react-set-state-usage) ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)
+# DEPRECATED [![CircleCI](https://circleci.com/gh/sutrkiller/react-set-state-usage.svg?style=shield&svg)](https://circleci.com/gh/sutrkiller/react-set-state-usage) [![npm version](https://img.shields.io/npm/v/react-set-state-usage.svg?style=flat)](https://www.npmjs.com/package/react-set-state-usage) ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)
+
+❗️ This repository was renamed and moved [here](https://github.com/sutrkiller/tslint-react-set-state-usage) ❗️
 
 **react-set-state-usage** is a rule, that enforces usage of callbacks in setState calls instead of objects. Moreover, it forbids access to `this.props` and `this.state` within `setState(...)` calls.
 
